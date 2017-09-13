@@ -16,33 +16,75 @@
  */
 package aesimbrothel;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
  *
  * @author John Miru <AEFictionDev@gmail.com>
  */
+
+/*
+EXIT CODES:
+0 All's well.
+1 Couldn't load required file.
+*/
 public class AESimBrothel extends Application {
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle(makeTitle("Menu"));
+    public void start(final Stage primaryStage) throws IOException {
+        FileHandler errorLogHandler;
+        File logDir;
+
+        logDir = new File("logs");
+        logDir.mkdir();
+        errorLogHandler = new FileHandler("logs/error.log");
+        Logger.getLogger("errorLog").addHandler(errorLogHandler);
+        MainController.setEventStage(primaryStage);
+        switchScene(primaryStage, "Main Menu");
         primaryStage.show();
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
-    public String makeTitle(String subTitle) {
-        return "AESimBrothel - " + subTitle;
+    public static void switchScene(final Stage stage, final String title) {
+        final Logger errorLog = Logger.getLogger("errorLog");
+        switch(title) {
+            case "Credits":
+                try {
+                    SceneList.showCredits(stage);
+                } catch (IOException ex) {
+                    errorLog.log(Level.SEVERE, "Could not load Credits", ex);
+                    System.exit(1);
+                }
+                break;
+            case "License":
+                try {
+                    SceneList.showLicense(stage);
+                } catch (IOException ex) {
+                    errorLog.log(Level.SEVERE, "Could not load License", ex);
+                    System.exit(1);
+                }
+                break;
+            case "Main Menu":
+            default:
+                try {
+                    SceneList.mainMenu(stage);
+                } catch (IOException ex) {
+                    errorLog.log(Level.SEVERE, "Could not load Main Menu", ex);
+                    System.exit(1);
+                }
+                break;
+        }
     }
 }
+

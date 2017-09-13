@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL ?>
+<?import javafx.scene.layout.VBox ?>
+<?import javafx.scene.layout.HBox ?>
+<?import javafx.scene.layout.Pane ?>
+<?import javafx.scene.layout.Priority ?>
+
+<?import javafx.scene.control.Button ?>
+
+<VBox fx:id="rootCol" fx:controller="aesimbrothel.MainController" xmlns:fx="http://javafx.com/fxml" styleClass="root" >
+    <stylesheets>
+        <URL value="@AESimBrothel.css" />
+    </stylesheets>
+    <HBox fx:id="menuHolder" VBox.vgrow="ALWAYS">
+        <VBox prefWidth="${menuHolder.width*0.20}" alignment="CENTER" >
+            <Button text="Load" />
+        </VBox>
+        <Pane HBox.hgrow="ALWAYS"></Pane>
+    </HBox>
+    <HBox>
+        <Button text="License" onAction="#mainButtonHandler" />
+        <Button text="Credits" onAction="#mainButtonHandler" />
+        <Pane HBox.hgrow="ALWAYS"></Pane>
+        <Button text="Exit" onAction="#mainButtonHandler" />
+    </HBox>
+</VBox>
